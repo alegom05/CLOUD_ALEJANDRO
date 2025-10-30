@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestor de Slices</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Gestor de Slices</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flash">
+        {% for msg in messages %}
+          <li>{{ msg }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <a href="{{ url_for('create_slice') }}">🟢 Crear nuevo slice</a>
+
+  <h2>Slices desplegados</h2>
+  <ul>
+    {% for s in slices %}
+      <li>
+        {{ s }}
+        <a href="{{ url_for('slice_detail', name=s) }}">Ver</a> |
+        <a href="{{ url_for('delete_slice', name=s) }}">Eliminar</a>
+      </li>
+    {% else %}
+      <li>No hay slices activos.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

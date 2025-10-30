@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crear Slice</title>
+</head>
+<body>
+  <h1>Subir JSON de Slice</h1>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="json_file" accept=".json" required><br><br>
+    <button type="submit">Desplegar</button>
+  </form>
+  <br>
+  <a href="{{ url_for('index') }}">⬅ Volver</a>
+</body>
+</html>
