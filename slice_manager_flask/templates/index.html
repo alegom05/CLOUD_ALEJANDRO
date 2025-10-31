@@ -1,58 +1,107 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Gestor de Slices</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <div class="container">
-    <header class="header">
-      <h1>Gestor de Slices</h1>
-      <div class="actions">
-        <a class="btn btn-primary" href="{{ url_for('create_slice') }}">➕ Crear nuevo slice</a>
-        <button id="refreshBtn" class="btn">🔄 Refrescar</button>
-      </div>
-    </header>
+{% extends 'base.html' %}
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class="flash">
-          {% for msg in messages %}
-            <li>{{ msg }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+{% block title %}Inicio — Gestor de Slices{% endblock %}
 
-    <section>
-      <h2>Slices desplegados</h2>
-      {% if slices %}
-        <ul class="slice-list">
-          {% for s in slices %}
-            <li class="slice-item">
-              <div class="slice-name">{{ s }}</div>
-              <div class="slice-controls">
-                <a class="btn" href="{{ url_for('slice_detail', name=s) }}">Ver</a>
-                <form method="post" action="{{ url_for('delete_slice', name=s) }}" class="inline-form" onsubmit="return confirmDelete('{{ s }}');">
-                  <button type="submit" class="btn btn-danger">Eliminar</button>
-                </form>
-              </div>
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No hay slices activos.</p>
-      {% endif %}
-    </section>
+{% block content %}
+  <div class="page-header">
+    <div class="page-title">
+      <h1>Slices desplegados</h1>
+      <p class="subtitle">Gestiona tus slices de red activos</p>
+    </div>
+    <div class="actions">
+      <button id="refreshBtn" class="btn" title="Refrescar lista">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <polyline points="1 20 1 14 7 14"></polyline>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        Refrescar
+      </button>
+      <a class="btn btn-primary" href="{{ url_for('create_slice') }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="16"></line>
+          <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+        Crear slice
+      </a>
+    </div>
   </div>
+
+  {% if slices %}
+    <div class="slice-grid">
+      {% for s in slices %}
+        <div class="slice-card">
+          <div class="slice-card-header">
+            <div class="slice-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+              </svg>
+            </div>
+            <div class="slice-info">
+              <h3 class="slice-name">{{ s }}</h3>
+              <span class="slice-status">
+                <span class="status-dot"></span>
+                Activo
+              </span>
+            </div>
+          </div>
+          <div class="slice-card-actions">
+            <a class="btn btn-small" href="{{ url_for('slice_detail', name=s) }}" title="Ver detalles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              Ver
+            </a>
+            <form method="post" action="{{ url_for('delete_slice', name=s) }}" class="inline-form" onsubmit="return confirmDelete('{{ s }}');">
+              <button type="submit" class="btn btn-small btn-danger" title="Eliminar slice">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Eliminar
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+        </svg>
+      </div>
+      <h2>No hay slices activos</h2>
+      <p>Comienza creando tu primer slice de red</p>
+      <a class="btn btn-primary" href="{{ url_for('create_slice') }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="16"></line>
+          <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+        Crear primer slice
+      </a>
+    </div>
+  {% endif %}
 
   <script>
     function confirmDelete(name) {
-      return confirm("¿Eliminar slice '" + name + "'? Esta acción no se puede deshacer.");
+      return confirm("¿Estás seguro de eliminar el slice '" + name + "'?\n\nEsta acción no se puede deshacer.");
     }
-    document.getElementById('refreshBtn').addEventListener('click', function(){ location.reload(); });
+    
+    const refreshBtn = document.getElementById('refreshBtn');
+    refreshBtn.addEventListener('click', function() {
+      refreshBtn.classList.add('loading');
+      location.reload();
+    });
   </script>
-</body>
-</html>
+{% endblock %}

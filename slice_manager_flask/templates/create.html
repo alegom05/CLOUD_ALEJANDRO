@@ -1,28 +1,106 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Crear Slice</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <div class="container">
-    <header class="header">
-      <h1>Subir JSON de Slice</h1>
-      <div class="actions">
-        <a class="btn" href="{{ url_for('index') }}">⬅ Volver</a>
-      </div>
-    </header>
+﻿{% extends "base.html" %}
 
-    <main class="card">
-      <form method="POST" enctype="multipart/form-data" class="upload-form">
-        <label class="file-label">Selecciona el archivo JSON</label>
-        <input type="file" name="json_file" accept=".json" required>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Desplegar</button>
-        </div>
-      </form>
-    </main>
+{% block title %}Crear Slice{% endblock %}
+
+{% block content %}
+<link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" />
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+<div class="slice-creator">
+  <aside class="topology-panel">
+    <div class="panel-section">
+      <h3>📐 Configuración</h3>
+      
+      <div class="form-group">
+        <label>Nombre del Slice</label>
+        <input type="text" id="sliceName" value="slice-1">
+      </div>
+      
+      <div class="form-group">
+        <label>Topología</label>
+        <select id="topologySelect">
+          <option value="">Seleccionar...</option>
+          <option value="anillo">⭕ Anillo</option>
+          <option value="arbol">🌳 Árbol</option>
+          <option value="malla">🕸️ Malla</option>
+          <option value="estrella">⭐ Estrella</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Número de nodos</label>
+        <select id="numNodes">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </div>
+      
+      <button class="btn btn-primary btn-block" id="addTopologyBtn">➕ Agregar Topología</button>
+    </div>
+
+    <div class="panel-section">
+      <h3>ℹ️ Estado</h3>
+      <div id="statusInfo" class="status-box">
+        <p class="muted">Selecciona una topología</p>
+      </div>
+    </div>
+
+    <div class="panel-actions">
+      <button class="btn btn-success btn-block" id="deployBtn" disabled>✅ Desplegar Slice</button>
+      <a class="btn btn-block" href="{{ url_for("index") }}">Cancelar</a>
+    </div>
+  </aside>
+
+  <main class="canvas-area">
+    <div id="network"></div>
+    <div class="canvas-placeholder" id="canvasPlaceholder">
+      <div class="placeholder-content">
+        <div class="placeholder-icon">🖼️</div>
+        <p>Selecciona una topología y haz clic en "Agregar Topología"</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="nodeModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>⚙️ Configurar Nodo</h3>
+      <button class="modal-close" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="nodeName">
+      </div>
+      <div class="form-group">
+        <label>Flavor</label>
+        <select id="nodeFlavor">
+          <option value="f1">f1 - 1 CPU, 2GB RAM</option>
+          <option value="f2">f2 - 1 CPU, 4GB RAM</option>
+          <option value="f3">f3 - 2 CPU, 2GB RAM</option>
+          <option value="f4">f4 - 2 CPU, 4GB RAM</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="nodeInternet">
+          <span>Acceso a Internet</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" id="saveNodeBtn">Guardar</button>
+      <button class="btn" id="cancelNodeBtn">Cancelar</button>
+    </div>
   </div>
-</body>
-</html>
+</div>
+
+<script>
+  var createUrl = "{{ url_for('create_slice') }}";
+  var indexUrl = "{{ url_for('index') }}";
+</script>
+<script src="{{ url_for('static', filename='slice-editor.js') }}"></script>
+{% endblock %}
