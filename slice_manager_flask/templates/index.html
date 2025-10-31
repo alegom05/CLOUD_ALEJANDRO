@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Gestor de Slices</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <h1>Gestor de Slices</h1>
+  <div class="container">
+    <header class="header">
+      <h1>Gestor de Slices</h1>
+      <div class="actions">
+        <a class="btn btn-primary" href="{{ url_for('create_slice') }}">➕ Crear nuevo slice</a>
+        <button id="refreshBtn" class="btn">🔄 Refrescar</button>
+      </div>
+    </header>
 
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class="flash">
-        {% for msg in messages %}
-          <li>{{ msg }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash">
+          {% for msg in messages %}
+            <li>{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
-  <a href="{{ url_for('create_slice') }}">🟢 Crear nuevo slice</a>
+    <section>
+      <h2>Slices desplegados</h2>
+      {% if slices %}
+        <ul class="slice-list">
+          {% for s in slices %}
+            <li class="slice-item">
+              <div class="slice-name">{{ s }}</div>
+              <div class="slice-controls">
+                <a class="btn" href="{{ url_for('slice_detail', name=s) }}">Ver</a>
+                <form method="post" action="{{ url_for('delete_slice', name=s) }}" class="inline-form" onsubmit="return confirmDelete('{{ s }}');">
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No hay slices activos.</p>
+      {% endif %}
+    </section>
+  </div>
 
-  <h2>Slices desplegados</h2>
-  <ul>
-    {% for s in slices %}
-      <li>
-        {{ s }}
-        <a href="{{ url_for('slice_detail', name=s) }}">Ver</a> |
-        <a href="{{ url_for('delete_slice', name=s) }}">Eliminar</a>
-      </li>
-    {% else %}
-      <li>No hay slices activos.</li>
-    {% endfor %}
-  </ul>
+  <script>
+    function confirmDelete(name) {
+      return confirm("¿Eliminar slice '" + name + "'? Esta acción no se puede deshacer.");
+    }
+    document.getElementById('refreshBtn').addEventListener('click', function(){ location.reload(); });
+  </script>
 </body>
 </html>

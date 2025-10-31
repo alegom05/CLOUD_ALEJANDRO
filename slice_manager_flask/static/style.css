@@ -19,3 +19,49 @@ a:hover {
   border-radius: 5px;
   list-style: none;
 }
+
+/* Layout helpers */
+.container {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.actions { display: flex; gap: 8px; align-items: center; }
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+.btn-primary { background:#007bff; color:#fff; border-color: #007bff; }
+.btn-danger { background:#dc3545; color:#fff; border-color: #dc3545; }
+
+/* Slice list */
+.slice-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.slice-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+.slice-name { font-weight: 600; }
+.slice-controls { display: flex; gap: 8px; }
+.inline-form { display: inline; margin: 0; }
+
+.card { background:#fff; padding:18px; border-radius:8px; border:1px solid #e8e8e8; }
+.upload-form { display:flex; flex-direction:column; gap:12px; }
+.file-label { font-weight:600; }
+.form-actions { display:flex; gap:8px; }

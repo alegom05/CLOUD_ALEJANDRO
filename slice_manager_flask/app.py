@@ -32,8 +32,9 @@ def slice_detail(name):
     info = subprocess.check_output(['bash', 'show_slice_info.sh', name]).decode()
     return render_template('detail.html', name=name, info=info)
 
-@app.route('/delete/<name>')
+@app.route('/delete/<name>', methods=['GET', 'POST'])
 def delete_slice(name):
+    # Allow deletion via POST (from a form) while keeping GET for compatibility
     subprocess.run(['bash', 'delete_slice.sh', name])
     flash(f"Slice '{name}' eliminado ❌")
     return redirect(url_for('index'))
