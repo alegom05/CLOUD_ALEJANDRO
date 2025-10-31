@@ -81,11 +81,122 @@ a:hover {
 .logo .accent { color:#0066ff; margin-left:6px; }
 .nav-actions { display:flex; gap:8px; }
 
+/* App Header */
+.app-header {
+  background: white;
+  padding: 18px 0 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.app-title svg {
+  flex-shrink: 0;
+}
+
+/* Header Navigation */
+.header-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.header-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  background: transparent;
+}
+
+.header-tab:hover {
+  color: #0066ff;
+  background: #f1f5f9;
+  text-decoration: none;
+}
+
+.header-tab.active {
+  color: #0066ff;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.15);
+}
+
+.header-tab svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.header-tab:hover svg {
+  transform: scale(1.1);
+}
+
+.header-tab.active svg {
+  transform: scale(1.05);
+}
+
+/* App Body Layout */
+.app-body {
+  display: flex;
+  min-height: calc(100vh - 140px);
+}
+
+/* Sidebar - Remove */
+.sidebar {
+  display: none;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  background: #fafbfc;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.main-content > .container {
+  padding: 20px;
+}
+
 .main { padding: 20px 0 40px; }
-.footer { padding:16px 0; color:#6b7280; font-size:13px; border-top:1px solid rgba(16,24,40,0.04); background:transparent; }
+.footer { 
+  padding:16px 0; 
+  color:#6b7280; 
+  font-size:13px; 
+  border-top:1px solid rgba(16,24,40,0.04); 
+  background:white;
+  margin-top: auto;
+}
 
 .page-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; gap:12px; }
 .page-header h1 { margin:0; font-size:20px; }
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
 .empty-state { text-align:center; padding:28px; }
 
@@ -105,10 +216,10 @@ a:hover {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 20px;
-  height: calc(100vh - 160px);
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
+  height: calc(100vh - 180px);
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Panel izquierdo */
