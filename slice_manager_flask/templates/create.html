@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Crear Slice{% endblock %}
 
@@ -8,27 +8,33 @@
 
 <div class="slice-creator">
   <aside class="topology-panel">
+    <h2 class="panel-title">Configuracion</h2>
+
     <div class="panel-section">
-      <h3>📐 Configuración</h3>
-      
       <div class="form-group">
         <label>Nombre del Slice</label>
-        <input type="text" id="sliceName" value="slice-1">
+        <input type="text" id="sliceName" class="form-control" placeholder="Nombre del slice" value="slice-1">
       </div>
-      
+    </div>
+
+    <div class="panel-separator"></div>
+
+    <div class="panel-section">
+      <h3 class="section-title">Agregar Topologia</h3>
+
       <div class="form-group">
-        <label>Topología</label>
+        <label>Topologia</label>
         <select id="topologySelect">
           <option value="">Seleccionar...</option>
-          <option value="anillo">⭕ Anillo</option>
-          <option value="arbol">🌳 Árbol</option>
-          <option value="malla">🕸️ Malla</option>
-          <option value="estrella">⭐ Estrella</option>
+          <option value="anillo">Anillo</option>
+          <option value="arbol">Arbol</option>
+          <option value="malla">Malla</option>
+          <option value="estrella">Estrella</option>
         </select>
       </div>
-      
+
       <div class="form-group">
-        <label>Número de nodos</label>
+        <label>Numero de nodos</label>
         <select id="numNodes">
           <option value="3">3</option>
           <option value="4" selected>4</option>
@@ -36,20 +42,10 @@
           <option value="6">6</option>
         </select>
       </div>
-      
-      <button class="btn btn-primary btn-block" id="addTopologyBtn">➕ Agregar Topología</button>
-    </div>
 
-    <div class="panel-section">
-      <h3>ℹ️ Estado</h3>
-      <div id="statusInfo" class="status-box">
-        <p class="muted">Selecciona una topología</p>
-      </div>
-    </div>
-
-    <div class="panel-actions">
-      <button class="btn btn-success btn-block" id="deployBtn" disabled>✅ Desplegar Slice</button>
-      <a class="btn btn-block" href="{{ url_for("index") }}">Cancelar</a>
+      <button class="btn btn-primary btn-block" id="addTopologyBtn">Agregar Topologia</button>
+      <button class="btn btn-success btn-block" id="deployBtn" disabled style="margin-top: 10px;">Desplegar Slice</button>
+      <a class="btn btn-danger btn-block" href="{{ url_for('index') }}" style="margin-top: 10px;">Cancelar</a>
     </div>
   </aside>
 
@@ -81,8 +77,8 @@
     <div id="network"></div>
     <div class="canvas-placeholder" id="canvasPlaceholder">
       <div class="placeholder-content">
-        <div class="placeholder-icon">🖼️</div>
-        <p>Selecciona una topología y haz clic en "Agregar Topología"</p>
+        <div class="placeholder-icon">IMG</div>
+        <p>Selecciona una topologia y haz clic en Agregar Topologia</p>
       </div>
     </div>
   </main>
@@ -91,7 +87,7 @@
 <div id="nodeModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3>⚙️ Configurar Nodo</h3>
+      <h3>Configurar Nodo</h3>
       <button class="modal-close" id="closeModal">&times;</button>
     </div>
     <div class="modal-body">
@@ -106,6 +102,8 @@
           <option value="f2">f2 - 1 CPU, 4GB RAM</option>
           <option value="f3">f3 - 2 CPU, 2GB RAM</option>
           <option value="f4">f4 - 2 CPU, 4GB RAM</option>
+          <option value="f5">f5 - 1 CPU, 8GB RAM</option>
+          <option value="f6">f6 - 2 CPU, 8GB RAM</option>
         </select>
       </div>
       <div class="form-group">
@@ -117,7 +115,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" id="saveNodeBtn">Guardar</button>
-      <button class="btn" id="cancelNodeBtn">Cancelar</button>
+      <button class="btn btn-danger" id="cancelNodeBtn">Cancelar</button>
     </div>
   </div>
 </div>
