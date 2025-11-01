@@ -110,7 +110,7 @@ function addTopology() {
 
     // Hide placeholder
     document.getElementById('canvasPlaceholder').style.display = 'none';
-    document.getElementById('network').style.display = 'block';
+    const networkDiv = document.getElementById('network'); networkDiv.style.display = 'block'; networkDiv.style.width = '100%'; networkDiv.style.height = '100%';
 }
 
 function initializeNetwork() {
@@ -367,3 +367,4 @@ document.addEventListener('keyup', function(e) {
         if (network) network.unselectAll();
     }
 });
+

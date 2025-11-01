@@ -27,7 +27,7 @@
     <div class="canvas-placeholder" id="canvasPlaceholder">
       <div class="placeholder-content">
         <div class="placeholder-icon">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
             <rect x="3" y="3" width="7" height="7" rx="1"></rect>
             <rect x="14" y="3" width="7" height="7" rx="1"></rect>
             <rect x="14" y="14" width="7" height="7" rx="1"></rect>
@@ -35,9 +35,10 @@
           </svg>
         </div>
         <p>Haz clic en "Añadir Topología" para comenzar</p>
+        <p class="help-text">Doble clic en una VM para configurarla</p>
       </div>
     </div>
-    <div id="network" style="display: none;"></div>
+    <div id="network"></div>
   </div>
 </div>
 
@@ -118,7 +119,7 @@
       <div class="form-group">
         <label class="checkbox-label">
           <input type="checkbox" id="vmInternet">
-          <span>Acceso a Internet</span>
+          <span>Conexión a Internet</span>
         </label>
       </div>
     </div>
@@ -137,7 +138,7 @@ var indexUrl = "{{ url_for('index') }}";
 
 <style>
 .slice-name-section {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .slice-name-section label {
@@ -165,20 +166,19 @@ var indexUrl = "{{ url_for('index') }}";
 }
 
 .topology-container {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .canvas-area {
   width: 100%;
-  height: auto;
+  height: calc(100vh - 350px);
   min-height: 500px;
-  padding: 80px 28px;
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-  border-radius: 20px;
-  border: 2px dashed #cbd5e1;
+  border: none;
+  border-radius: 12px;
+  background: #f8fafc;
   position: relative;
   overflow: hidden;
-}
+  display: flex;  align-items: center;  justify-content: center;}
 
 .canvas-placeholder {
   position: absolute;
@@ -187,29 +187,38 @@ var indexUrl = "{{ url_for('index') }}";
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .placeholder-content {
   text-align: center;
   color: #94a3b8;
-}
+  width: 100%;  display: flex;  flex-direction: column;  align-items: center;  justify-content: center;}
 
 .placeholder-icon {
   margin-bottom: 16px;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .placeholder-content p {
   font-size: 16px;
-  margin: 0;
+  margin: 4px 0;
+}
+
+.help-text {
+  font-size: 14px !important;
+  color: #cbd5e1 !important;
+  margin-top: 8px !important;
 }
 
 #network {
   width: 100%;
   height: 100%;
-}
+  display: none;
+  position: absolute;  top: 0;  left: 0;}
 
 .add-topology-section {
   display: flex;
@@ -240,7 +249,7 @@ var indexUrl = "{{ url_for('index') }}";
   background-color: white;
   margin: 5% auto;
   padding: 0;
-  border-radius: 16px;
+  border-radius: 12px;
   width: 90%;
   max-width: 500px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -364,4 +373,6 @@ var indexUrl = "{{ url_for('index') }}";
 </style>
 
 {% endblock %}
+
+
 
