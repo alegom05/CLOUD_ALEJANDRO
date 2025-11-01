@@ -110,7 +110,20 @@ function addTopology() {
 
     // Hide placeholder
     document.getElementById('canvasPlaceholder').style.display = 'none';
-    const networkDiv = document.getElementById('network'); networkDiv.style.display = 'block'; networkDiv.style.width = '100%'; networkDiv.style.height = '100%';
+    const networkDiv = document.getElementById('network');
+    networkDiv.style.display = 'block';
+    networkDiv.style.width = '100%';
+    networkDiv.style.height = '100%';
+    
+    // Center the view
+    setTimeout(() => {
+        network.fit({
+            animation: {
+                duration: 1000,
+                easingFunction: 'easeInOutQuad'
+            }
+        });
+    }, 100);
 }
 
 function initializeNetwork() {
@@ -122,42 +135,53 @@ function initializeNetwork() {
     const data = { nodes: nodes, edges: edges };
     const options = {
         nodes: {
-            shape: 'box',
-            margin: 10,
-            widthConstraint: { minimum: 80, maximum: 120 },
-            font: { size: 12, color: '#ffffff' },
-            color: {
-                background: '#667eea',
-                border: '#5a67d8',
-                highlight: {
-                    background: '#5a67d8',
-                    border: '#4c51bf'
-                }
+            shape: 'image',
+            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIyIiB5PSI0IiB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHJ4PSIyIiBmaWxsPSIjNjY3ZWVhIiBzdHJva2U9IiM1YTY3ZDgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQiIHk9IjYiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxMCIgZmlsbD0iIzRjNTFiZiIvPjxyZWN0IHg9IjgiIHk9IjE4IiB3aWR0aD0iOCIgaGVpZ2h0PSIyIiBmaWxsPSIjNjY3ZWVhIi8+PHJlY3QgeD0iMTAiIHk9IjIwIiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjNWE2N2Q4Ii8+PC9zdmc+',
+            size: 40,
+            font: { 
+                size: 14, 
+                color: '#1e293b',
+                background: 'rgba(255,255,255,0.9)',
+                strokeWidth: 0
             },
-            borderWidth: 2,
+            borderWidth: 0,
             borderWidthSelected: 3,
-            shadow: true
+            shapeProperties: {
+                useBorderWithImage: true
+            }
         },
         edges: {
-            width: 2,
-            color: { color: '#94a3b8', highlight: '#667eea' },
-            smooth: { type: 'continuous' },
+            width: 3,
+            color: { 
+                color: '#94a3b8', 
+                highlight: '#667eea',
+                hover: '#667eea'
+            },
+            smooth: { 
+                type: 'continuous',
+                roundness: 0.5
+            },
             arrows: { to: false }
         },
         physics: {
             enabled: true,
             barnesHut: {
-                gravitationalConstant: -2000,
+                gravitationalConstant: -3000,
                 centralGravity: 0.3,
                 springLength: 150,
-                springConstant: 0.04
+                springConstant: 0.05,
+                damping: 0.3
             },
-            stabilization: { iterations: 200 }
+            stabilization: { 
+                iterations: 300,
+                updateInterval: 25
+            }
         },
         interaction: {
             dragNodes: true,
             dragView: true,
-            zoomView: true
+            zoomView: true,
+            hover: true
         },
         manipulation: {
             enabled: false
@@ -200,9 +224,9 @@ function createTopologyNodes(name, type, vmCount, topologyId) {
     const newEdges = [];
     const startId = currentNodeId;
 
-    // Calculate position for this topology
-    const xOffset = (topologyId % 2) * 300 - 150;
-    const yOffset = Math.floor(topologyId / 2) * 300;
+    // Calculate position for this topology (more spread out)
+    const xOffset = (topologyId % 2) * 400 - 200;
+    const yOffset = Math.floor(topologyId / 2) * 400 - 200;
 
     // Create nodes
     for (let i = 0; i < vmCount; i++) {
@@ -215,7 +239,8 @@ function createTopologyNodes(name, type, vmCount, topologyId) {
             flavor: 'f1',
             internet: false,
             x: xOffset,
-            y: yOffset
+            y: yOffset,
+            physics: true
         });
     }
 
@@ -268,8 +293,8 @@ function addEdgeBetweenTopologies(from, to) {
             from: from,
             to: to,
             color: { color: '#f59e0b', highlight: '#d97706' },
-            width: 3,
-            dashes: true
+            width: 4,
+            dashes: [10, 5]
         });
     }
 }
@@ -367,4 +392,3 @@ document.addEventListener('keyup', function(e) {
         if (network) network.unselectAll();
     }
 });
-
